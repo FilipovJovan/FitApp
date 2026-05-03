@@ -1,5 +1,6 @@
 BEGIN;
 
+CREATE TYPE gender_enum AS ENUM ('male', 'female', 'other');
 -- USERS TABLE
 CREATE TABLE users
 (
@@ -9,7 +10,7 @@ CREATE TABLE users
     email         TEXT        NOT NULL UNIQUE,
     password_hash TEXT        NOT NULL,
     birth_date    DATE,
-    gender        TEXT        NOT NULL,
+    gender        gender_enum NOT NULL,
     created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -68,6 +69,7 @@ CREATE TABLE weeks
         FOREIGN KEY (plan_id)
             REFERENCES plans (id)
             ON DELETE CASCADE,
+
     UNIQUE (plan_id, week_number)
 );
 
@@ -82,6 +84,7 @@ CREATE TABLE days
         FOREIGN KEY (week_id)
             REFERENCES weeks (id)
             ON DELETE CASCADE,
+
     UNIQUE (week_id, day_number)
 );
 
