@@ -1,27 +1,24 @@
-BEGIN;
-
-CREATE TYPE gender_enum AS ENUM ('male', 'female', 'other');
 -- USERS TABLE
 CREATE TABLE users
 (
-    id            UUID PRIMARY KEY     DEFAULT gen_random_uuid(),
-    name          TEXT        NOT NULL,
-    surname       TEXT        NOT NULL,
-    email         TEXT        NOT NULL UNIQUE,
-    password_hash TEXT        NOT NULL,
+    id            CHAR(36)                         NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    name          VARCHAR(255)                     NOT NULL,
+    surname       VARCHAR(255)                     NOT NULL,
+    email         VARCHAR(255)                     NOT NULL UNIQUE,
+    password_hash VARCHAR(255)                     NOT NULL,
     birth_date    DATE,
-    gender        gender_enum NOT NULL,
-    created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+    gender        ENUM ('male', 'female', 'other') NOT NULL,
+    created_at    TIMESTAMP                        NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- USER_BODY_METRICS TABLE
 CREATE TABLE user_body_metrics
 (
-    id         UUID PRIMARY KEY     DEFAULT gen_random_uuid(),
-    user_id    UUID        NOT NULL,
+    id         CHAR(36)  NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    user_id    CHAR(36)  NOT NULL,
     height     INT,
     weight     INT,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_body_metrics_user
         FOREIGN KEY (user_id)
@@ -32,11 +29,11 @@ CREATE TABLE user_body_metrics
 -- TRAINING_PROFILES TABLE
 CREATE TABLE training_profiles
 (
-    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id       UUID NOT NULL,
-    experience    TEXT NOT NULL,
-    split         TEXT NOT NULL,
-    days_per_week INT  NOT NULL,
+    id            CHAR(36)     NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    user_id       CHAR(36)     NOT NULL,
+    experience    VARCHAR(255) NOT NULL,
+    split         VARCHAR(255) NOT NULL,
+    days_per_week INT          NOT NULL,
 
     CONSTRAINT fk_training_profiles_user
         FOREIGN KEY (user_id)
@@ -44,13 +41,13 @@ CREATE TABLE training_profiles
             ON DELETE CASCADE
 );
 
--- PLANS TABLES
+-- PLANS TABLE
 CREATE TABLE plans
 (
-    id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id        UUID NOT NULL,
-    weeks_per_plan INT  NOT NULL,
-    days_per_week  INT  NOT NULL,
+    id             CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    user_id        CHAR(36) NOT NULL,
+    weeks_per_plan INT      NOT NULL,
+    days_per_week  INT      NOT NULL,
 
     CONSTRAINT fk_plans_user
         FOREIGN KEY (user_id)
@@ -61,9 +58,9 @@ CREATE TABLE plans
 -- WEEKS TABLE
 CREATE TABLE weeks
 (
-    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    plan_id     UUID NOT NULL,
-    week_number INT  NOT NULL,
+    id          CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    plan_id     CHAR(36) NOT NULL,
+    week_number INT      NOT NULL,
 
     CONSTRAINT fk_weeks_plan
         FOREIGN KEY (plan_id)
@@ -76,9 +73,9 @@ CREATE TABLE weeks
 -- DAYS TABLE
 CREATE TABLE days
 (
-    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    week_id    UUID NOT NULL,
-    day_number INT  NOT NULL,
+    id         CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    week_id    CHAR(36) NOT NULL,
+    day_number INT      NOT NULL,
 
     CONSTRAINT fk_days_week
         FOREIGN KEY (week_id)
@@ -88,23 +85,23 @@ CREATE TABLE days
     UNIQUE (week_id, day_number)
 );
 
--- EXERCISES
+-- EXERCISES TABLE
 CREATE TABLE exercises
 (
-    id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name         TEXT NOT NULL,
-    muscle_group TEXT NOT NULL
+    id           CHAR(36)     NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    name         VARCHAR(255) NOT NULL,
+    muscle_group VARCHAR(255) NOT NULL
 );
 
--- WORKOUT_EXERCISES
+-- WORKOUT_EXERCISES TABLE
 CREATE TABLE workout_exercises
 (
-    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    day_id      UUID NOT NULL,
-    exercise_id UUID NOT NULL,
-    sets        INT  NOT NULL,
-    reps        INT  NOT NULL,
-    rest        INT  NOT NULL,
+    id          CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    day_id      CHAR(36) NOT NULL,
+    exercise_id CHAR(36) NOT NULL,
+    sets        INT      NOT NULL,
+    reps        INT      NOT NULL,
+    rest        INT      NOT NULL,
 
     CONSTRAINT fk_workout_day
         FOREIGN KEY (day_id)
@@ -115,6 +112,3 @@ CREATE TABLE workout_exercises
         FOREIGN KEY (exercise_id)
             REFERENCES exercises (id)
 );
-
-
-COMMIT;
