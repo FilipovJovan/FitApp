@@ -9,10 +9,13 @@ export const findById = async (id) => {
     return rows[0] || null;
 }
 
-export const updateUser = async (id, { name, surname, birthDate, gender }) => {
+export const updateUser = async (id, {name, surname, birthDate, gender}) => {
     await pool.query(
         `UPDATE users
-         SET name = ?, surname = ?, birth_date = ?, gender = ?
+         SET name = ?,
+             surname = ?,
+             birth_date = ?,
+             gender = ?
          WHERE id = ?`,
         [name, surname, birthDate, gender, id]
     );
@@ -21,7 +24,9 @@ export const updateUser = async (id, { name, surname, birthDate, gender }) => {
 
 export const updateEmail = async (id, email) => {
     await pool.query(
-        `UPDATE users SET email = ? WHERE id = ?`,
+        `UPDATE users
+         SET email = ?
+         WHERE id = ?`,
         [email, id]
     );
     return findById(id);
@@ -29,14 +34,18 @@ export const updateEmail = async (id, email) => {
 
 export const updatePasswordHash = async (id, passwordHash) => {
     await pool.query(
-        `UPDATE users SET password_hash = ? WHERE id = ?`,
+        `UPDATE users
+         SET password_hash = ?
+         WHERE id = ?`,
         [passwordHash, id]
     );
 }
 
 export const deleteUser = async (id) => {
     const [rows] = await pool.query(
-        `DELETE FROM users WHERE id = ?`, [id]
+        `DELETE
+         FROM users
+         WHERE id = ?`, [id]
     );
     return rows[0] || null;
 }
