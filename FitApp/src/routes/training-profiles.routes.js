@@ -1,14 +1,12 @@
-import {Router} from 'express';
-import {
-    getTrainingProfile,
-    setTrainingProfile,
-    updateTrainingProfile
-} from "../controllers/training-profiles.controller.js";
+import { Router } from 'express';
+import * as trainingProfileController from '../controllers/training-profiles.controller.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
 
-router.post('/', setTrainingProfile);
-router.get('/', getTrainingProfile);
-router.patch('/', updateTrainingProfile);
+router.use(authenticate);
+
+router.get('/', trainingProfileController.getProfile);
+router.put('/', trainingProfileController.upsertProfile);
 
 export default router;

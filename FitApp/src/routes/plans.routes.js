@@ -1,23 +1,15 @@
-import {Router} from 'express';
-import {
-    createPlan,
-    deletePlan, getDayInPlan, getDaysInPlan,
-    getPlan,
-    getPlans,
-    getWeekInPlan,
-    getWeeksInPlan
-} from "../controllers/plan.controller.js";
+import { Router } from 'express';
+import * as planController from '../controllers/plan.controller.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
 
-router.post('/generate', createPlan);
-router.get('/', getPlans);
-router.get('/:planId', getPlan);
-router.delete('/:planId', deletePlan);
+router.use(authenticate);
 
-router.get('/:planId/weeks', getWeeksInPlan);
-router.get('/:planId/weeks/:weekNumber', getWeekInPlan);
-router.get('/:planId/weeks/:weekNumber/days', getDaysInPlan);
-router.get('/:planId/weeks/:weekNumber/days/:dayNumber', getDayInPlan);
+router.post('/', planController.createPlan);
+router.get('/', planController.getMyPlans);
+router.get('/:id', planController.getPlan);
+router.put('/:id', planController.updatePlan);
+router.delete('/:id', planController.deletePlan);
 
 export default router;

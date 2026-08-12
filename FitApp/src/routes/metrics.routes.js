@@ -1,11 +1,13 @@
-import {Router} from 'express';
-import {deleteMetric, getLatestMetric, getMetrics, setMetrics} from "../controllers/metrics.controller.js";
+import { Router } from 'express';
+import * as metricsController from '../controllers/metrics.controller.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
 
-router.post('/', setMetrics);
-router.get('/', getMetrics);
-router.get('/latest', getLatestMetric);
-router.delete('/:id', deleteMetric);
+router.use(authenticate);
+
+router.post('/', metricsController.createMetric);
+router.get('/', metricsController.getHistory);
+router.get('/latest', metricsController.getLatest);
 
 export default router;

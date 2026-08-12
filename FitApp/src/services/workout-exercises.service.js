@@ -34,11 +34,3 @@ export const deleteWorkoutExercise = async (id, userId, {sets, reps, rest}) => {
     }
     return workoutExerciseRepo.updateWorkoutExercise(id, {sets, reps, rest});
 }
-
-export const deleteWorkoutExercise = async (id, userId) => {
-    const workoutExercise = await workoutExerciseRepo.findByIdAndUserId(id, userId);
-    if (!workoutExercise) {
-        throw new Error("Workout exercises not found");
-    }
-    await workoutExerciseRepo.deleteWorkoutExercise(id);
-}

@@ -4,6 +4,7 @@ import cors from 'cors';
 import userRouter from './routes/users.routes.js';
 import authRouter from './routes/auth.routes.js';
 import daysRouter from './routes/days.routes.js';
+import weeksRouter from './routes/weeks.routes.js';
 import exerciseRouter from './routes/exercises.routes.js';
 import metricsRouter from './routes/metrics.routes.js';
 import trainingProfileRouter from './routes/training-profiles.routes.js';
@@ -20,15 +21,15 @@ app.use(cors({
     credentials: true
 }));
 
-app.use('/exercises', exerciseRouter);
-app.use('/users', userRouter);
-app.use('/auth', authRouter);
-app.use('/days', daysRouter);
-app.use('/metrics', metricsRouter);
-app.use('/training-profile', trainingProfileRouter);
-app.use('/plan', plansRouter);
-app.use('/workout-exercises', workoutExerciseRouter);
-
+app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
+app.use('/api/metrics', metricsRouter);
+app.use('/api/training-profile', trainingProfileRouter);
+app.use('/api/plans', plansRouter);
+app.use('/api', weeksRouter);
+app.use('/api', daysRouter);
+app.use('/api/exercises', exerciseRouter);
+app.use('/api', workoutExerciseRouter);
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
