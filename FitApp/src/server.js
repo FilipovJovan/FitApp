@@ -26,8 +26,8 @@ app.use('/api/users', userRouter);
 app.use('/api/metrics', metricsRouter);
 app.use('/api/training-profile', trainingProfileRouter);
 app.use('/api/plans', plansRouter);
-app.use('/api', weeksRouter);
-app.use('/api', daysRouter);
+app.use('/api/weeks', weeksRouter);
+app.use('/api/days', daysRouter);
 app.use('/api/exercises', exerciseRouter);
 app.use('/api', workoutExerciseRouter);
 

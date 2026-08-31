@@ -10,20 +10,21 @@ export const findById = async (id) => {
 }
 
 export const createBodyMetrics = async ({id, userId, height, weight}) => {
-    const [rows] = await pool.query(
+    await pool.query(
         `INSERT INTO user_body_metrics (id, user_id, height, weight)
          VALUES (?, ?, ?, ?)`, [id, userId, height, weight]
     )
-    return rows[0] || null;
+    return findById(id);
 }
 
 export const findAllByUserId = async (userId) => {
     const [rows] = await pool.query(
         `SELECT *
          FROM user_body_metrics
-         WHERE user_id = ?`, [userId]
+         WHERE user_id = ?
+         ORDER BY created_at DESC`, [userId]
     )
-    return rows[0] || null;
+    return rows;
 }
 
 export const findLatestByUserId = async (userId) => {

@@ -8,7 +8,7 @@ router.use(authenticate);
 
 router.post('/weeks/:weekId/days', dayController.createDay);
 router.get('/weeks/:weekId/days', dayController.getDaysForWeek);
-router.get('/days/:id', dayController.getDay);
-router.delete('/days/:id', dayController.deleteDay);
+router.get('/:id', dayController.getDay);
+router.delete('/:id', dayController.deleteDay);
 
 export default router;

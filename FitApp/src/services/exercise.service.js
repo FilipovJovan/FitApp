@@ -7,7 +7,7 @@ export const listExercises = async ({muscleGroup}) => {
     return exerciseRepo.findAll();
 }
 
-export const getExercises = async (exerciseId) => {
+export const getExercise = async (exerciseId) => {
     const exercise = await exerciseRepo.findById(exerciseId);
     if (!exercise) {
         throw new Error("Exercise not found");

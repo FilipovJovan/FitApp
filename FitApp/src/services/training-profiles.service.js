@@ -11,10 +11,10 @@ export const getProfile = async (userId) => {
 }
 
 // create profile or update if existing
-export const upsertProfile = async (userId, {experience, split, dayPerWeek}) => {
+export const upsertProfile = async (userId, {experience, split, daysPerWeek}) => {
     const existing = await trainingProfileRepo.findByUserId(userId);
     if (existing) {
-        return trainingProfileRepo.updateTrainingProfile(existing.id, {experience, split, dayPerWeek});
+        return trainingProfileRepo.updateTrainingProfile(existing.id, {experience, split, daysPerWeek});
     }
-    return trainingProfileRepo.createTrainingProfile({id: uuidv4(), experience, split, dayPerWeek});
+    return trainingProfileRepo.createTrainingProfile({id: uuidv4(), userId, experience, split, daysPerWeek});
 }

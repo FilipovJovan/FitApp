@@ -3,7 +3,7 @@ import * as metricsRepo from '../db/metrics.repo.js';
 
 // create metric profile
 export const createMetric = async (userId, {height, weight}) => {
-    return metricRepo.create({id: uuidv4(), userId, height, weight});
+    return metricsRepo.createBodyMetrics({id: uuidv4(), userId, height, weight});
 }
 
 // get whole history

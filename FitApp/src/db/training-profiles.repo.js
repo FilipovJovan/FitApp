@@ -1,5 +1,4 @@
 import {pool} from "./pool.repo.js";
-import {findById} from "./user.repo.js";
 
 export const findByUserId = async (userId) => {
     const [rows] = await pool.query(
@@ -10,12 +9,21 @@ export const findByUserId = async (userId) => {
     return rows[0] || null;
 }
 
+export const findById = async (id) => {
+    const [rows] = await pool.query(
+        `SELECT *
+         FROM training_profiles
+         WHERE id = ?`, [id]
+    )
+    return rows[0] || null;
+}
+
 export const createTrainingProfile = async ({id, userId, experience, split, daysPerWeek}) => {
-    const rows = await pool.query(
+    await pool.query(
         `INSERT INTO training_profiles (id, user_id, experience, split, days_per_week)
          VALUES (?, ?, ?, ?, ?)`, [id, userId, experience, split, daysPerWeek]
     )
-    return rows[0] || null;
+    return findById(id);
 }
 
 export const updateTrainingProfile = async (id, {experience, split, daysPerWeek}) => {

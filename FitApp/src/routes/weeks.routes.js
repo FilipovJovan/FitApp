@@ -8,6 +8,6 @@ router.use(authenticate);
 
 router.post('/plans/:planId/weeks', weekController.createWeek);
 router.get('/plans/:planId/weeks', weekController.getWeeksForPlan);
-router.delete('/weeks/:id', weekController.deleteWeek);
+router.delete('/:id', weekController.deleteWeek);
 
 export default router;

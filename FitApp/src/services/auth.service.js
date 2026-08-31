@@ -7,7 +7,7 @@ import * as authRepo from '../db/auth.repo.js';
 export const register = async ({name, surname, email, password, birthDate, gender}) => {
     const exists = await authRepo.existByEmail(email);
     if (exists) {
-        throw new error("Email already in use");
+        throw new Error("Email already in use");
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
@@ -24,12 +24,12 @@ export const register = async ({name, surname, email, password, birthDate, gende
 export const login = async ({email, password}) => {
     const user = await authRepo.findByEmail(email);
     if (!user) {
-        throw new error("Invalid credentials")
+        throw new Error("Invalid credentials")
     }
 
     const valid = await bcrypt.compare(password, user.password_hash);
     if (!valid) {
-        throw new error("Invalid credentials")
+        throw new Error("Invalid credentials")
     }
 
     const token = jwt.sign({sub: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
